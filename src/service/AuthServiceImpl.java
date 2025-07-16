@@ -1,6 +1,7 @@
 package service;
 
 import dao.UserDAO;
+import exception.InvalidEmailException;
 import model.User;
 import java.util.Scanner;
 
@@ -20,6 +21,18 @@ public class AuthServiceImpl implements AuthService {
 
         System.out.print("Enter email: ");
         String email = scanner.nextLine();
+        String regex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$";
+        try
+        {
+            if (!email.matches(regex)) {
+                throw new InvalidEmailException();
+            }
+        }
+        catch (InvalidEmailException e)
+        {
+            System.out.println(e.getMessage());
+            return null;
+        }
 
         System.out.print("Enter password: ");
         String password = scanner.nextLine();
